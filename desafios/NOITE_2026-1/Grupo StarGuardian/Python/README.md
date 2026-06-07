@@ -44,8 +44,8 @@ A coordenação entre os componentes permite um fluxo de feedback instantâneo:
 GrupoStarGuardian/
 ├── Trabalho de Cloves/
 │   ├── Código/
-│   │   ├── main (1).py    # Código principal da aplicação
-│   │   └── main.py        # Arquivo vazio (possivelmente um placeholder ou versão anterior)
+│   │   ├── main.py    # Código principal da aplicação
+│   │  
 │   └── Slides/
 │       └── Exploradores_do_Espaço_Jornada_do_Conhecimento_Estelar_no_IMIP.pdf # Apresentação do projeto
 └── README.md              # Este arquivo
@@ -64,10 +64,9 @@ Para executar o projeto, siga os passos abaixo:
 
 3.  **Execute o script principal:**
     ```bash
-    python3 "main (1).py"
+    python3 "main.py"
     ```
 
-    *Nota: O arquivo `main.py` está vazio. O código funcional está em `main (1).py`.*
 
 4.  **Interaja com o jogo:** Siga as instruções no console para responder às perguntas e avançar na jornada espacial.
 
@@ -78,7 +77,7 @@ Para executar o projeto, siga os passos abaixo:
 
 ## Créditos
 
-**Autores:** Grupo Star Guardian (conforme indicado pelo nome do projeto)
+**Autores:** Grupo Star Guardian
 **Desenvolvido para:** IMIP (Instituto de Medicina Integral Professor Fernando Figueira)
 **Contexto:** Desafio IMIP | Arquitetura de Software e Humanização
 
