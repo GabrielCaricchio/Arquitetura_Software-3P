@@ -9,6 +9,6 @@
 
 - Rafael Queiroga 
 - Lucas Correia de Melo Silva
-- Cauã Castro 
-- George Guilherme
+- Cauã de Castro Araújo 
+- George Guilherme Oliveira Souza Dantas
 - João Victor
