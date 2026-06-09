@@ -6,7 +6,7 @@ de responsabilidades, promovendo maior manutenibilidade e escalabilidade do sist
 No front-end, foram utilizadas tecnologias como HTML, CSS e JavaScript, responsáveis pela
 interface com o usuário, incluindo telas de autenticação, interação dos alunos com os jogos e
 visualização de desempenho por parte dos professores.
-O back-end foi desenvolvido utilizando o framework Flask, em Python, sendo responsável pela
+O back-end foi desenvolvido utilizando Node.js, sendo responsável pela
 lógica de negócio, gerenciamento de sessões, autenticação de usuários e comunicação com o
 banco de dados.
 O banco de dados utilizado foi o SQLite, escolhido por sua simplicidade e facilidade de integração,
@@ -19,8 +19,11 @@ usuário.
 ## 2. Documento de Rationale
 As decisões técnicas adotadas no desenvolvimento deste projeto foram orientadas por critérios de
 simplicidade, eficiência e adequação ao contexto educacional.
-O uso do framework Flask foi motivado por sua leveza e facilidade de aprendizagem, possibilitando
+O uso inicial do framework Flask foi motivado por sua leveza e facilidade de aprendizagem, possibilitando
 a implementação rápida de funcionalidades essenciais, como autenticação e criação de rotas.
+Durante os processos finais o framework Flask foi substituído pelo ambiente Node.js por ser 
+mais clássico e minimalista e cria servidores de forma rápida, após uma análise ele era 
+o mais eficiente para o desenvolvimento do site.
 A escolha do SQLite como sistema de gerenciamento de banco de dados deve-se à sua natureza
 embarcada, dispensando a necessidade de configuração de servidores adicionais, o que o torna
 adequado para aplicações de pequeno porte.
@@ -39,6 +42,8 @@ desempenho e simplicidade de implementação.
 No que se refere à segurança, optou-se inicialmente por armazenar senhas em formato simples,
 priorizando a facilidade de implementação. Contudo, reconhece-se que a utilização de técnicas de
 hash seria mais adequada em um ambiente de produção.
+Na parte do desenvolvimento, o Flask foi substituído pelo Node.js devido à sua arquitetura assíncrona orientada a eventos,
+que lida melhor com milhares de conexões simultâneas, à unificação da linguagem e ao seu vasto ecossistema de pacotes.
 Em relação ao banco de dados, o SQLite foi escolhido por sua praticidade, embora apresente
 limitações de escalabilidade quando comparado a soluções mais robustas, como PostgreSQL.
 Outro ponto relevante foi a substituição do uso de armazenamento local (localStorage) pelo banco
