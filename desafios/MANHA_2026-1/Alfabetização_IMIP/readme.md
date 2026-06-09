@@ -8,7 +8,7 @@
 #### Equipe:
 
 - Rafael Queiroga 
-- Lucas Correia 
-- Cauã Castro
+- Lucas Correia de Melo Silva
+- Cauã Castro 
 - George Guilherme
 - João Victor
