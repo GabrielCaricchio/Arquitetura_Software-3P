@@ -1,6 +1,8 @@
 from flask import Blueprint, request, jsonify
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 from app.models import (
+    Quiz,
     Question,
     Attempt,
     Answer
@@ -11,14 +13,28 @@ from app import db
 quiz_bp = Blueprint(
     "quiz",
     __name__,
-    url_prefix="/quizzes"
-)
+    url_prefix="/quizzes")
 
-# =========================
+@quiz_bp.route("", methods=["GET"])
+@jwt_required()
+
+# ROTA PARA LISTAR QUIZZES
+def get_quizzes():
+    quizzes = Quiz.query.all()
+
+    response = []
+    for quiz in quizzes:
+        response.append({
+            "id": quiz.id,
+            "title": quiz.title,
+            "level": quiz.level
+        })
+
+    return jsonify(response), 200
+
 # ENVIAR RESPOSTAS
-# =========================
-
 @quiz_bp.route("/submit", methods=["POST"])
+@jwt_required()
 def submit_quiz():
 
     data = request.get_json()
@@ -27,7 +43,7 @@ def submit_quiz():
 
     # Cria tentativa
     attempt = Attempt(
-        student_id=data["student_id"],
+        student_id=get_jwt_identity(),
         quiz_id=data["quiz_id"],
         score=0
     )
