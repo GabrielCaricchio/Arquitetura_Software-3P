@@ -13,16 +13,22 @@ from app import db
 quiz_bp = Blueprint(
     "quiz",
     __name__,
-    url_prefix="/quizzes")
+    url_prefix="/quizzes"
+)
 
+
+# =========================
+# LISTAR QUIZZES
+# GET /quizzes
+# =========================
 @quiz_bp.route("", methods=["GET"])
 @jwt_required()
-
-# ROTA PARA LISTAR QUIZZES
 def get_quizzes():
+
     quizzes = Quiz.query.all()
 
     response = []
+
     for quiz in quizzes:
         response.append({
             "id": quiz.id,
@@ -32,60 +38,156 @@ def get_quizzes():
 
     return jsonify(response), 200
 
+
+# =========================
+# BUSCAR QUIZ POR ID
+# GET /quizzes/<id>
+# =========================
+@quiz_bp.route("/<int:quiz_id>", methods=["GET"])
+@jwt_required()
+def get_quiz(quiz_id):
+
+    quiz = Quiz.query.get(quiz_id)
+
+    if not quiz:
+        return jsonify({
+            "error": "Quiz não encontrado"
+        }), 404
+
+    questions = Question.query.filter_by(
+        quiz_id=quiz_id
+    ).all()
+
+    return jsonify({
+        "id": quiz.id,
+        "title": quiz.title,
+        "level": quiz.level,
+        "questions": [
+            {
+                "id": question.id,
+                "word_with_missing": question.word_with_missing
+            }
+            for question in questions
+        ]
+    }), 200
+
+
+# =========================
 # ENVIAR RESPOSTAS
+# POST /quizzes/submit
+# =========================
 @quiz_bp.route("/submit", methods=["POST"])
 @jwt_required()
 def submit_quiz():
 
-    data = request.get_json()
+    try:
 
-    score = 0
+        data = request.get_json()
 
-    # Cria tentativa
-    attempt = Attempt(
-        student_id=get_jwt_identity(),
-        quiz_id=data["quiz_id"],
-        score=0
-    )
+        if not data:
+            return jsonify({
+                "error": "Corpo da requisição inválido"
+            }), 400
 
-    db.session.add(attempt)
-    db.session.commit()
+        quiz_id = data.get("quiz_id")
+        answers = data.get("answers")
 
-    # Percorre respostas
-    for answer in data["answers"]:
+        if not quiz_id:
+            return jsonify({
+                "error": "quiz_id é obrigatório"
+            }), 400
 
-        # Busca questão
-        question = Question.query.get(
-            answer["question_id"]
+        if not answers:
+            return jsonify({
+                "error": "answers é obrigatório"
+            }), 400
+
+        # Verifica se o quiz existe
+        quiz = Quiz.query.get(quiz_id)
+
+        if not quiz:
+            return jsonify({
+                "error": "Quiz não encontrado"
+            }), 404
+
+        score = 0
+
+        # Cria tentativa
+        attempt = Attempt(
+            student_id=get_jwt_identity(),
+            quiz_id=quiz_id,
+            score=0
         )
 
-        # Verifica acerto
-        is_correct = (
-            answer["student_answer"].lower()
-            ==
-            question.correct_answer.lower()
-        )
+        db.session.add(attempt)
 
-        # Soma ponto
-        if is_correct:
-            score += 1
+        # Gera ID sem commit
+        db.session.flush()
 
-        # Salva resposta
-        new_answer = Answer(
-            attempt_id=attempt.id,
-            question_id=question.id,
-            student_answer=answer["student_answer"],
-            is_correct=is_correct
-        )
+        # Corrige respostas
+        for answer in answers:
 
-        db.session.add(new_answer)
+            question = Question.query.get(
+                answer.get("question_id")
+            )
 
-    # Atualiza nota
-    attempt.score = score
+            if not question:
+                return jsonify({
+                    "error": f"Questão {answer.get('question_id')} não encontrada"
+                }), 404
 
-    db.session.commit()
+            # Segurança:
+            # garante que a questão pertence ao quiz enviado
+            if question.quiz_id != quiz_id:
+                return jsonify({
+                    "error": f"A questão {question.id} não pertence ao quiz informado"
+                }), 400
 
-    return jsonify({
-        "message": "Quiz enviado",
-        "score": score
-    })
+            student_answer = answer.get(
+                "student_answer",
+                ""
+            )
+
+            is_correct = (
+                student_answer.strip().lower()
+                ==
+                question.correct_answer.strip().lower()
+            )
+
+            if is_correct:
+                score += 1
+
+            new_answer = Answer(
+                attempt_id=attempt.id,
+                question_id=question.id,
+                student_answer=student_answer,
+                is_correct=is_correct
+            )
+
+            db.session.add(new_answer)
+
+        # Atualiza nota final
+        attempt.score = score
+
+        db.session.commit()
+
+        total_questions = len(answers)
+
+        return jsonify({
+            "message": "Quiz enviado com sucesso",
+            "attempt_id": attempt.id,
+            "quiz_id": quiz_id,
+            "score": score,
+            "total_questions": total_questions,
+            "correct_answers": score,
+            "wrong_answers": total_questions - score
+        }), 200
+
+    except Exception as e:
+
+        db.session.rollback()
+
+        return jsonify({
+            "error": "Erro ao processar o quiz",
+            "details": str(e)
+        }), 500

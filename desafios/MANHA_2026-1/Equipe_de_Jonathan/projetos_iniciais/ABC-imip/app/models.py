@@ -138,3 +138,12 @@ class Answer(db.Model):
     is_correct = db.Column(
         db.Boolean
     )
+
+    attempt = db.relationship(
+        "Attempt",
+        backref="answers"
+    )
+
+    question = db.relationship(
+        "Question"
+    )
