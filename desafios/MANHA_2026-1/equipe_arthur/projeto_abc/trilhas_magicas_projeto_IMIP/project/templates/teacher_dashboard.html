@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}Painel do Professor | Trilhas Mágicas{% endblock %}
+{% block content %}
+<div class="page-header">
+    <div>
+        <span class="badge">Área do professor</span>
+        <h2>Visão geral</h2>
+        <p>Acompanhe alunos cadastrados e histórias criadas.</p>
+    </div>
+</div>
+
+<div class="grid three">
+    <article class="card stat">
+        <h3>{{ total_students }}</h3>
+        <p>Alunos cadastrados</p>
+    </article>
+    <article class="card stat">
+        <h3>{{ total_teachers }}</h3>
+        <p>Professores cadastrados</p>
+    </article>
+    <article class="card stat">
+        <h3>{{ total_stories }}</h3>
+        <p>Histórias criadas</p>
+    </article>
+</div>
+
+<div class="grid two">
+    <section class="card">
+        <h3>Alunos</h3>
+        {% if students %}
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Aluno</th>
+                            <th>Idade</th>
+                            <th>Leitura</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for student in students %}
+                        <tr>
+                            <td>{{ student.user.name }}</td>
+                            <td>{{ student.age or "-" }}</td>
+                            <td>{{ student.reading_level or "-" }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p>Nenhum aluno cadastrado.</p>
+        {% endif %}
+    </section>
+
+    <section class="card">
+        <h3>Histórias recentes</h3>
+        {% if stories %}
+            <div class="story-list">
+                {% for story in stories[:10] %}
+                    <div class="story-item">
+                        <strong>{{ story.title }}</strong>
+                        <span>{{ story.student.user.name }}</span>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>Nenhuma história criada ainda.</p>
+        {% endif %}
+    </section>
+</div>
+{% endblock %}

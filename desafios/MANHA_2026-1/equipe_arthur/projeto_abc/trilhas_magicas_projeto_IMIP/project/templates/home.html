@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Trilhas Mágicas{% endblock %}
+{% block content %}
+<section class="hero card">
+    <div>
+        <span class="badge">IMIP • Alfabetização Hospitalar</span>
+        <h1>Uma plataforma simples para criar histórias mágicas e acompanhar o aprendizado.</h1>
+        <p>O aluno se cadastra, preenche o perfil, gera uma história personalizada com IA e responde às perguntas. O professor acompanha tudo em um painel único.</p>
+        <div class="actions">
+            <a href="{{ url_for('auth.register') }}" class="button">Começar agora</a>
+            <a href="{{ url_for('auth.login') }}" class="button secondary">Já tenho conta</a>
+        </div>
+    </div>
+    <div class="hero-illustration">
+        <div class="book">📚</div>
+        <p>Livro mágico, estrelas e aventuras de leitura.</p>
+    </div>
+</section>
+
+<section class="grid three">
+    <article class="card">
+        <h3>Cadastro rápido</h3>
+        <p>Aluno ou professor entram em poucos passos.</p>
+    </article>
+    <article class="card">
+        <h3>História personalizada</h3>
+        <p>A IA usa nome, idade, obra favorita e atividade favorita.</p>
+    </article>
+    <article class="card">
+        <h3>Acompanhamento do professor</h3>
+        <p>Veja alunos cadastrados e histórias criadas.</p>
+    </article>
+</section>
+{% endblock %}

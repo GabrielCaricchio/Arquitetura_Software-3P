@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}História | Trilhas Mágicas{% endblock %}
+{% block content %}
+<div class="card">
+    <span class="badge">História criada</span>
+    <h2>{{ story.title }}</h2>
+    <p class="story-text">{{ story.content }}</p>
+
+    <div class="actions">
+        <a href="{{ url_for('student.quiz', story_id=story.id) }}" class="button">Responder perguntas</a>
+        <a href="{{ url_for('student.dashboard') }}" class="button secondary">Voltar ao painel</a>
+    </div>
+</div>
+
+<div class="grid three">
+    {% for challenge in story.challenges %}
+        <article class="card">
+            <h3>Pergunta {{ loop.index }}</h3>
+            <p>{{ challenge.question }}</p>
+        </article>
+    {% endfor %}
+</div>
+{% endblock %}

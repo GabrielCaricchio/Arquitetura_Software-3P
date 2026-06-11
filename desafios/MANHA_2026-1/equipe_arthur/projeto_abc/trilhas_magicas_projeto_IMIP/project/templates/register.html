@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Cadastro | Trilhas Mágicas{% endblock %}
+{% block content %}
+<div class="card form-card">
+    <h2>Cadastrar</h2>
+    <form method="POST">
+        <label>Nome</label>
+        <input type="text" name="name" required>
+
+        <label>E-mail</label>
+        <input type="email" name="email" required>
+
+        <label>Senha</label>
+        <input type="password" name="password" required>
+
+        <label>Tipo</label>
+        <select name="user_type">
+            <option value="aluno">Aluno</option>
+            <option value="professor">Professor</option>
+        </select>
+
+        <button type="submit" class="button full">Criar conta</button>
+    </form>
+    <p class="muted">Já possui acesso? <a href="{{ url_for('auth.login') }}">Entrar</a></p>
+</div>
+{% endblock %}

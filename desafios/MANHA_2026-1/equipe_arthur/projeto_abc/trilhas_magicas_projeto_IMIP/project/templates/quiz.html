@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Quiz | Trilhas Mágicas{% endblock %}
+{% block content %}
+<div class="card form-card wide">
+    <span class="badge">Perguntas da história</span>
+    <h2>{{ story.title }}</h2>
+
+    {% if result %}
+        <div class="result-box">
+            <h3>Resultado</h3>
+            <p>Você acertou {{ result.score }} de {{ result.total }} perguntas.</p>
+        </div>
+    {% endif %}
+
+    <form method="POST">
+        {% for challenge in challenges %}
+            <label>{{ loop.index }}. {{ challenge.question }}</label>
+            <textarea name="answer_{{ loop.index }}" rows="3" placeholder="Escreva sua resposta aqui..."></textarea>
+        {% endfor %}
+        <button type="submit" class="button full">Enviar respostas</button>
+    </form>
+</div>
+{% endblock %}

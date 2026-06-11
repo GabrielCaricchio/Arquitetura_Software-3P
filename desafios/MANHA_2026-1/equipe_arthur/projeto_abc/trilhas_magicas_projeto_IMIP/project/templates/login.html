@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Entrar | Trilhas Mágicas{% endblock %}
+{% block content %}
+<div class="card form-card">
+    <h2>Entrar</h2>
+    <form method="POST">
+        <label>E-mail</label>
+        <input type="email" name="email" required>
+
+        <label>Senha</label>
+        <input type="password" name="password" required>
+
+        <button type="submit" class="button full">Entrar</button>
+    </form>
+    <p class="muted">Ainda não tem conta? <a href="{{ url_for('auth.register') }}">Cadastre-se</a></p>
+</div>
+{% endblock %}
