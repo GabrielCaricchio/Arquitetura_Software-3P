@@ -1,14 +1,18 @@
-## EcoCidade Inteligente 🌿
+## EcoCidade Inteligente 
 
 Sistema web para gestão e incentivo à coleta seletiva, conectando cidadãos e prefeitura para melhorar o controle e a participação na reciclagem urbana.
 
-## 📌 Sobre o projeto
+##  Sobre o projeto
+
+## Link da apresentação
+
+https://drive.google.com/file/d/1FR81jJ9dOzefufS1nHjCjCZaCpo3KeOX/view
 
 O EcoCidade Inteligente permite que moradores encontrem ecopontos, agendem coleta de recicláveis, acompanhem histórico de reciclagem e recebam notificações sobre coleta no bairro.
 
 Para a gestão pública, o sistema oferece controle de solicitações, monitoramento de bairros e geração de relatórios ambientais.
 
-## 🚀 Funcionalidades
+## Funcionalidades
 Localização de ecopontos
 Agendamento de coleta domiciliar
 Histórico de reciclagem do usuário
@@ -16,13 +20,13 @@ Sistema de pontos por participação
 Notificações de coleta
 Painel administrativo para gestão pública
 
-## 🎯 Objetivo
+## Objetivo
 
 Incentivar a reciclagem e melhorar a gestão de resíduos urbanos por meio da tecnologia, promovendo sustentabilidade e engajamento social.
 
-## 🚀 Tecnologias utilizadas
+## Tecnologias utilizadas
 
-### 🔧 Backend
+### Backend
 - Python 3.x
 - Flask
 - SQLAlchemy 2.0.30
@@ -34,12 +38,12 @@ Incentivar a reciclagem e melhorar a gestão de resíduos urbanos por meio da te
 - Marshmallow 3.21.3
 - Werkzeug 3.0.3
 
-### 🗄️ Banco de dados & mensageria
+### Banco de dados & mensageria
 - Psycopg2-binary 2.9.9
 - Redis 5.0.4
 - Celery 5.4.0
 
-### ⚙️ Serviços e utilitários
+### Serviços e utilitários
 - Requests 2.32.3
 - Python-dotenv 1.0.1
 - APScheduler 3.10.4
@@ -49,7 +53,7 @@ Incentivar a reciclagem e melhorar a gestão de resíduos urbanos por meio da te
 
 ---
 
-## 👥 Equipe de desenvolvimento
+## Equipe de desenvolvimento
 
 - Marcus Souza — Backend / API / Arquitetura
 - Eduardo Filho — Banco de dados / Integração MySQL
@@ -59,7 +63,7 @@ Incentivar a reciclagem e melhorar a gestão de resíduos urbanos por meio da te
 
 ---
 
-## 🧠 Arquitetura do sistema
+## Arquitetura do sistema
 
 O projeto segue uma arquitetura em camadas baseada em API REST, com separação de responsabilidades inspirada no padrão MVC:
 
