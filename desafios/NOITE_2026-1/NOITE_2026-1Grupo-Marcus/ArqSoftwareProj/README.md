@@ -2,11 +2,11 @@
 
 Sistema web para gestão e incentivo à coleta seletiva, conectando cidadãos e prefeitura para melhorar o controle e a participação na reciclagem urbana.
 
-##  Sobre o projeto
-
 ## Link da apresentação
 
 https://drive.google.com/file/d/1FR81jJ9dOzefufS1nHjCjCZaCpo3KeOX/view
+
+##  Sobre o projeto
 
 O EcoCidade Inteligente permite que moradores encontrem ecopontos, agendem coleta de recicláveis, acompanhem histórico de reciclagem e recebam notificações sobre coleta no bairro.
 
