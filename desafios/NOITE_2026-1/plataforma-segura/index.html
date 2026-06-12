@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plataforma de Apoio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen p-4">
+
+    <h1 class="text-2xl font-bold text-gray-800 mb-2">Painel de Acesso</h1>
+    <p class="text-gray-500 mb-8 text-sm">Selecione uma opção abaixo.</p>
+
+    <div class="w-full max-w-sm space-y-3 mb-8">
+        <label class="block bg-white p-4 rounded-lg shadow border-l-4 border-red-500 cursor-pointer hover:bg-gray-50">
+            <input type="radio" name="urgencia" value="imediata" class="mr-2" checked>
+             Risco Imediato (Agressor no local)
+        </label>
+        
+        <label class="block bg-white p-4 rounded-lg shadow border-l-4 border-orange-500 cursor-pointer hover:bg-gray-50">
+            <input type="radio" name="urgencia" value="resgate" class="mr-2">
+             Preciso de resgate seguro
+        </label>
+
+        <label class="block bg-white p-4 rounded-lg shadow border-l-4 border-yellow-500 cursor-pointer hover:bg-gray-50">
+            <input type="radio" name="urgencia" value="medida_protetiva" class="mr-2">
+             Informar / Medida Protetiva
+        </label>
+    </div>
+
+    <div class="w-full max-w-sm relative bg-red-100 rounded-full h-14 flex items-center justify-center shadow-inner mb-12">
+        <span class="text-red-800 font-bold z-0 absolute">Deslize para Socorro ➔</span>
+        <input type="range" min="0" max="100" value="0" id="swipeSocorro" 
+               class="w-full h-full opacity-50 z-10 cursor-pointer appearance-none bg-transparent">
+    </div>
+
+    <button onclick="window.location.replace('https://www.google.com')" 
+            class="bg-gray-600 text-white font-bold py-3 px-8 rounded-full hover:bg-gray-800 transition shadow-lg mt-auto">
+        Sair Rapidamente
+    </button>
+
+    <script>
+    
+       const slider = document.getElementById('swipeSocorro');
+
+function verificarSwipe() {
+    if (slider.value >= 99) {
+        enviarSocorro();
+        slider.disabled = true; 
+    } else {
+        slider.value = 0;
+    }
+}
+slider.addEventListener('touchend', verificarSwipe);
+slider.addEventListener('mouseup', verificarSwipe);
+
+async function enviarSocorro() {
+    const urgenciaSelecionada = document.querySelector('input[name="urgencia"]:checked').value;
+
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(async function(posicao) {
+            
+            const latitudeReal = posicao.coords.latitude;
+            const longitudeReal = posicao.coords.longitude;
+            const dadosAlerta = {
+                urgencia: urgenciaSelecionada,
+                latitude: latitudeReal,
+                longitude: longitudeReal
+            };
+
+            try {
+                const resposta = await fetch('/api/socorro', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(dadosAlerta)
+                });
+                
+                const resultado = await resposta.json();
+                console.log(resultado); 
+                slider.parentElement.classList.replace('bg-red-100', 'bg-green-100');
+                const textoAviso = slider.previousElementSibling;
+                textoAviso.innerText = "✓ Pedido de ajuda registrado";
+                textoAviso.classList.replace('text-red-800', 'text-green-800');
+                
+            } catch (erro) {
+                console.error("Erro na comunicação com o servidor:", erro);
+            }
+            
+        }, function(erro) {
+            alert("Para acionar o resgate, precisamos da sua localização!");
+            slider.value = 0;
+            slider.disabled = false;
+        });
+        
+    } else {
+        alert("Seu navegador não suporta geolocalização.");
+    }
+}
+    </script>
+</body>
+</html>
