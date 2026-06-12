@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Perfil do Aluno | Trilhas Mágicas{% endblock %}
+{% block content %}
+<div class="card form-card wide">
+    <h2>Perfil do aluno</h2>
+    <p>Essas informações ajudam a IA a criar uma história mais próxima da realidade da criança.</p>
+
+    <form method="POST" action="{{ url_for('student.generate_story_route') }}">
+        <label>Nome</label>
+        <input type="text" value="{{ current_user.name }}" disabled>
+
+        <label>Idade</label>
+        <input type="number" name="age" min="1" max="18" value="{{ student.age if student and student.age else '' }}" required>
+
+        <label>Obra favorita</label>
+        <input type="text" name="favorite_story" value="{{ student.favorite_story if student and student.favorite_story else '' }}" required>
+
+        <label>Atividade favorita</label>
+        <input type="text" name="favorite_activity" value="{{ student.favorite_activity if student and student.favorite_activity else '' }}" required>
+
+        <label>Nível de leitura</label>
+        <select name="reading_level" required>
+            <option value="">Selecione</option>
+            <option value="iniciante" {% if student and student.reading_level == 'iniciante' %}selected{% endif %}>Iniciante</option>
+            <option value="intermediario" {% if student and student.reading_level == 'intermediario' %}selected{% endif %}>Intermediário</option>
+            <option value="avancado" {% if student and student.reading_level == 'avancado' %}selected{% endif %}>Avançado</option>
+        </select>
+
+        <button type="submit" class="button full">Gerar Minha História</button>
+    </form>
+</div>
+{% endblock %}

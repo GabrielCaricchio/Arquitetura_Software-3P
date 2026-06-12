@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Trilhas Mágicas{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script defer src="{{ url_for('static', filename='js/app.js') }}"></script>
+</head>
+<body>
+    <div class="stars"></div>
+    <nav class="navbar">
+        <a href="{{ url_for('home') }}" class="brand">✨ Trilhas Mágicas</a>
+        <div class="nav-links">
+            {% if current_user.is_authenticated %}
+                {% if current_user.is_student %}
+                    <a href="{{ url_for('student.dashboard') }}">Meu Painel</a>
+                    <a href="{{ url_for('student.profile') }}">Meu Perfil</a>
+                {% else %}
+                    <a href="{{ url_for('teacher.dashboard') }}">Painel Professor</a>
+                    <a href="{{ url_for('teacher.reports') }}">Relatórios</a>
+                {% endif %}
+                <a href="{{ url_for('auth.logout') }}">Sair</a>
+            {% else %}
+                <a href="{{ url_for('auth.login') }}">Entrar</a>
+                <a href="{{ url_for('auth.register') }}" class="button small">Cadastrar</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <main class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-area">
+                    {% for category, message in messages %}
+                        <div class="flash {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer">
+        <p>Trilhas Mágicas — alfabetização hospitalar com um toque de magia.</p>
+    </footer>
+</body>
+</html>

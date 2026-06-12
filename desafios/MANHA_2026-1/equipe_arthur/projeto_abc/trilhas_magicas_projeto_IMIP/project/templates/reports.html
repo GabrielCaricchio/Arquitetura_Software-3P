@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Relatórios | Trilhas Mágicas{% endblock %}
+{% block content %}
+<div class="card">
+    <span class="badge">Relatórios</span>
+    <h2>Histórias e perguntas</h2>
+
+    {% if stories %}
+        {% for story in stories %}
+            <div class="report-block">
+                <h3>{{ story.title }}</h3>
+                <p><strong>Aluno:</strong> {{ story.student.user.name }}</p>
+                <p><strong>Conteúdo:</strong> {{ story.content }}</p>
+
+                <div class="report-questions">
+                    {% for challenge in story.challenges %}
+                        <p><strong>Pergunta {{ loop.index }}:</strong> {{ challenge.question }}</p>
+                        <p><strong>Resposta esperada:</strong> {{ challenge.answer }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>Nenhuma história disponível.</p>
+    {% endif %}
+</div>
+{% endblock %}
